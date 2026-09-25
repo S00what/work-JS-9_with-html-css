@@ -257,8 +257,11 @@ body {
     color: #191d22;
     cursor: pointer;
     outline: none;
+    margin: 10px;
 }
-
+.stopwatch__btn-stopper {
+    display: none ;
+}
 /* Добавляем keyframe на уроке*/
 
 @keyframes opacity {

@@ -3,7 +3,7 @@ let sec = document.querySelector(".s"),
     hour = document.querySelector(".h"),
     hoursNumber = document.querySelector(".hours"),
     minutesNumber = document.querySelector(".minutes")
-    now = new Date();
+now = new Date();
 const links = document.querySelectorAll(`.tabsItem`);
 const tabs = document.querySelectorAll(`.tabsContentItem`);
 
@@ -42,4 +42,62 @@ links.forEach((link, i) => {
         tabs[i].classList.add("active");
     });
 });
+// LOL
 
+let stopWatchBtn = document.querySelector('.stopwatch__btn'),
+    stopWatchSec = document.querySelector('.stopwatch__seconds'),
+    stopWatchMin = document.querySelector('.stopwatch__minutes'),
+    stopWatchHours = document.querySelector('.stopwatch__hours'),
+    idk = document.querySelector('.idk'),
+    stopWatchSeconds = 0,
+    stopWatchMinutes = 0,
+    stopWatchHour = 0,
+    recursion = false,
+    stopWatchBtnStopper = document.querySelector('.stopwatch__btn-stopper');
+
+function stopWatch() {
+    if (recursion) {
+        stopWatchSec.innerHTML = `${stopWatchSeconds}`
+        if (stopWatchSeconds >= 60) {
+            stopWatchSeconds = 0
+            stopWatchMinutes++
+            stopWatchMin.innerHTML = `${stopWatchMinutes}`
+        } else if (stopWatchMinutes >= 60) {
+            stopWatchMinutes = 0
+            stopWathcHour++
+            stopWatchHours.innerHTML = `${stopWatchHour}`
+        } else if (stopWatchHour >= 24) {
+            stopWatchHour = 0
+            stopWatchMinutes = 0
+            stopWatchSeconds = 0
+            idk.innerHTML = 'hours > 24'
+        }
+        stopWatchSeconds++
+        setTimeout(() => stopWatch(), 1000)
+    }
+}
+stopWatchBtn.addEventListener('click', () => {
+    if (recursion === true) recursion = false
+    else recursion = true
+    stopWatch()
+    stopWatchBtn.toggleAttribute('activated')
+    if (stopWatchBtn.hasAttribute('activated')) {
+        stopWatchBtn.innerHTML = 'stop'
+    } else {
+        stopWatchBtnStopper.classList.add('stopwatch__btn')
+        stopWatchBtnStopper.innerHTML = 'reset'
+        stopWatchBtnStopper.style.display = 'flex'
+        stopWatchBtnStopper.addEventListener('click', () => {
+            stopWatchSeconds = 0
+            stopWatchMinutes = 0
+            stopWatchHour = 0
+            stopWatchHours.innerHTML = `${stopWatchHour}`
+            stopWatchMin.innerHTML = `${stopWatchMinutes}`
+            stopWatchSec.innerHTML = `${stopWatchSeconds}`
+            stopWatchBtnStopper.classList.remove('stopwatch__btn')
+            stopWatchBtnStopper.innerHTML = null
+            stopWatchBtnStopper.style.display = 'none'
+        })
+        stopWatchBtn.innerHTML = 'start'
+    }
+})
